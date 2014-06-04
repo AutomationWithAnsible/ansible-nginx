@@ -1,17 +1,21 @@
-server {
-
-{% for k,v in item.server.iteritems() %}
-{% if k.find('location') == -1 and k != 'file_name' %}
-{{ k }} {{ v }};
-{% endif %}
-{% endfor %} 
-
-{% for k,v in item.server.iteritems() if k.find('location') != -1 %}
-  location {{ v.name }} {
-{% for x,y in v.iteritems() if x != 'name' %} 
-      {{ x }} {{ y }};
+{% for block in item.blocks %}
+{{block.type}} {{ block.name if block.name is defined else "" }} {
+{% for block_key,block_value in block.iteritems() %}
+{% if not block_value is mapping and block_key != 'type' and block_key != 'name' %}
+  {{ block_key }} {{ block_value }};
+{% elif block_value is mapping and block_value.type is defined  %}
+  {{ block_value.type }} {{ block_value.name if block_value.name is defined else "" }} {
+{% for x,y in block_value.iteritems() if x != 'name' and x != 'type' %}
+    {{ x }} {{ y }};
 {% endfor %}
   }
+{% elif block_value is mapping %}
+{% for subblock_key,subblock_value in block_value.iteritems() %}
+{% for array_value in subblock_value %}
+    {{ subblock_key }} {{ array_value }};
+{% endfor %}
+{% endfor %}
+{% endif %}
 {% endfor %}
 }
-
+{% endfor %}
