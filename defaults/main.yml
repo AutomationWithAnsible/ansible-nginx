@@ -2,6 +2,8 @@
 
 nginx_max_clients: 512
 
+nginx_etc              : "/etc/nginx/"
+
 nginx_http_params:
   sendfile: "on"
   tcp_nopush: "on"
@@ -11,11 +13,24 @@ nginx_http_params:
   error_log: "/var/log/nginx/error.log"
 
 nginx_conf                            :
-   - file_name                        : "default"
+   - file_name                        : "test.conf"
      blocks                           :
        - type                         : "server"
          root                         : "/usr/share/nginx/www"
          index                        : "index.html index.htm"
          server_name                  : localhost
-         location1                    : {name: /, try_files: "$uri $uri/ /index.html"}
-         location2                    : {name: /doc/, alias: "/usr/share/doc/", autoindex: "on", allow: "127.0.0.1", deny: "all" }
+         listen                       : 80
+         location1                    : { 
+                                          name: /, 
+                                          type: location,
+                                          try_files: "$uri $uri/ /index.html",
+                                          alias: /opt/local/share/doc/
+                                        }
+         location2                    : {
+                                          name: /doc/,
+                                          type: location, 
+                                          alias: "/usr/share/doc/", 
+                                          autoindex: "on", 
+                                          allow: "127.0.0.1", 
+                                          deny: "all" 
+                                        }

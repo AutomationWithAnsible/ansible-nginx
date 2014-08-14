@@ -10,4 +10,6 @@ ubuntu_pkg:
   - python-selinux
   - nginx
 
+solaris_pkg:
+   - nginx
   

@@ -1,0 +1,20 @@
+---
+
+- name: nginx_redhat |Install the selinux python module
+  yum: 
+      name=libselinux-python 
+      state=present
+  when: ansible_os_family == "RedHat"
+
+- name: nginx_redhat| Copy the epel packages 
+  copy: 
+       src=epel.repo 
+       dest=/etc/yum.repos.d/epel_ansible.repo
+  when: ansible_os_family == "RedHat"
+
+- name: nginx_redhat | Install the nginx packages 
+  yum: 
+      name={{ item }} 
+      state=present
+  with_items: redhat_pkg
+  when: ansible_os_family == "RedHat"
