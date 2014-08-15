@@ -24,6 +24,6 @@ http {
         gzip on;
         gzip_disable "msie6";
 
-        include {{nginx_etc}}conf.d/*.conf;
+        include {{nginx_etc}}/conf.d/*.conf;
         include {{nginx_etc}}/sites-enabled/*;
 }

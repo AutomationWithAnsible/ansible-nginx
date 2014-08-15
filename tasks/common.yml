@@ -12,29 +12,22 @@
     - "sites-available"
     - "sites-enabled"
 
-- name: common | Copy the nginx default configuration file 
-  template: 
-     src=default.conf.j2 
-     dest="{{nginx_etc}}/conf.d/default.conf"
-
-- name: common | Copy the nginx default site configuration file 
-  template: 
-     src=default.j2 
-     dest="{{nginx_etc}}/sites-available/default"
-
-- name: common | Create the link for site enabled specific configurations
-  file: 
-      path="{{nginx_etc}}/sites-enabled/default"
-      state=link 
-      src="{{nginx_etc}}/sites-available/default"
-
 - name: common | Create the  configuration files for nginx
   template: 
       src=site.j2 
-      dest="{{nginx_etc}}/conf.d/{{item.file_name}}.conf"
-  with_items: nginx_conf
+      dest="{{nginx_etc}}/sites-available/{{item.file_name}}.conf"
+  with_items: nginx_site
+  when: nginx_site |lower != 'none'
+  notify: 
+   - reload nginx
 
-  when: nginx_conf |lower != 'none'
+## TODO: Add conidition to disable/enable sites
+- name: Create the link for site enabled specific configurations
+  file: 
+     path="{{nginx_etc}}/sites-enabled/{{item.file_name}}.conf" 
+     state=link 
+     src="{{nginx_etc}}/sites-available/{{item.file_name}}.conf" 
+  with_items: nginx_site   
   notify: 
    - reload nginx
 
