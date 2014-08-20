@@ -14,7 +14,7 @@
 - name: common | Copy the nginx default configuration file 
   template: 
       src=default.j2
-      dest="{{nginx_etc}}/sites-available/conf.d/default.conf"
+      dest="{{nginx_etc}}/sites-available/default.conf"
 
 - name: common |Copy the nginx default site configuration file 
   template: 
