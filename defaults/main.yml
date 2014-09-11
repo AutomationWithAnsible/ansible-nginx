@@ -23,7 +23,7 @@ nginx_site                            :
                                           name: /, 
                                           type: location,
                                           try_files: "$uri $uri/ /index.html",
-                                          alias: /opt/local/share/doc/
+                                          root: /usr/share/nginx/www
                                         }
          ## Use yaml
          location2                    : 
