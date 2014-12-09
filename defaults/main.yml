@@ -1,6 +1,8 @@
 ---
 nginx_etc              : "/etc/nginx/"
 nginx_max_clients      : 512
+nginx_install_repo     : "ubuntu" # Options: ["nginx", "ubuntu"]
+nginx_apt_state        : "present" # Options: ["latest", "present"]
 
 nginx_http_params:
   sendfile: "on"
