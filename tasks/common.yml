@@ -3,9 +3,9 @@
 - name: common | Create the directories for site specific configurations
   file: 
       path="{{nginx_etc}}/{{item}}"
-      state=directory 
-      owner=root 
-      group=root 
+      state=directory
+      owner=root
+      group=root
       mode=0755
   with_items:
     - "sites-available"
@@ -14,7 +14,7 @@
 - name: common | Copy the nginx default configuration file 
   template: 
       src=default.j2
-      dest="{{nginx_etc}}/sites-available/default.conf"
+      dest="{{ nginx_etc }}/sites-available/default.conf"
 
 - name: common |Copy the nginx default site configuration file 
   template: 
@@ -24,12 +24,12 @@
 - name: common | Create the link for site enabled specific configurations
   file: 
       path="{{nginx_etc}}/sites-enabled/default"
-      state=link 
+      state=link
       src="{{nginx_etc}}/sites-available/default"
 
 - name: common | Create the  configuration files for nginx
-  template: 
-      src=site.j2 
+  template:
+      src=site.j2
       dest="{{nginx_etc}}/sites-available/{{item.file_name}}.conf"
   with_items: nginx_site
   when: nginx_site |lower != 'none'
@@ -39,9 +39,9 @@
 ## TODO: Add conidition to disable/enable sites
 - name: Create the link for site enabled specific configurations
   file: 
-     path="{{nginx_etc}}/sites-enabled/{{item.file_name}}.conf" 
-     state=link 
-     src="{{nginx_etc}}/sites-available/{{item.file_name}}.conf" 
+     path="{{nginx_etc}}/sites-enabled/{{item.file_name}}.conf"
+     state=link
+     src="{{nginx_etc}}/sites-available/{{item.file_name}}.conf"
   with_items: nginx_site   
   notify: 
    - reload nginx
@@ -56,6 +56,6 @@
 
 - name: common | start the nginx service
   service: 
-      name=nginx 
-      state=started 
+      name=nginx
+      state=started
       enabled=yes

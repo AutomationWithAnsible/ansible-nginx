@@ -12,7 +12,7 @@
 
 - name: nginx_redhat | Copy the epel packages
   copy: 
-       src=epel.repo 
+       src=epel.repo
        dest=/etc/yum.repos.d/epel_ansible.repo
   when: epel_release_existed.rc != 0
 

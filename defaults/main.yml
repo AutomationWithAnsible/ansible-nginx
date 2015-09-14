@@ -1,5 +1,6 @@
 ---
 nginx_etc              : "/etc/nginx/"
+nginx_default_root     : "/usr/share/nginx/html" # Will  only work for ubuntu
 nginx_max_clients      : 512
 nginx_install_repo     : "ubuntu" # Options: ["nginx", "ubuntu"]
 nginx_apt_state        : "present" # Options: ["latest", "present"]
@@ -13,19 +14,18 @@ nginx_http_params:
   error_log: "/var/log/nginx/error.log"
 
 nginx_site                            :
-   - file_name                        : "default"
+   - file_name                        : "test"
      blocks                           :
        - type                         : "server"
-         root                         : "/usr/share/nginx/www"
          index                        : "index.html index.htm"
          server_name                  : localhost
          listen                       : 80
          ## Use josn
-         location1                    : { 
-                                          name: /, 
+         location1                    : {
+                                          name: /,
                                           type: location,
                                           try_files: "$uri $uri/ /index.html",
-                                          root: /usr/share/nginx/www
+                                          root: "{{ nginx_default_root }}"
                                         }
          ## Use yaml
          location2                    : 
@@ -35,4 +35,4 @@ nginx_site                            :
                           autoindex   : "on" 
                           allow       : "127.0.0.1"
                           deny        : "all" 
-                                        
+
