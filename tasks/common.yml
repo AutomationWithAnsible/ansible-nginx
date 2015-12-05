@@ -2,7 +2,7 @@
 
 - name: common | Create the directories for site specific configurations
   file: 
-      path="{{nginx_etc}}/{{item}}"
+      path="{{ nginx_etc }}/{{ item }}"
       state=directory
       owner=root
       group=root
@@ -13,49 +13,49 @@
 
 - name: common | Copy the nginx default configuration file 
   template: 
-      src=default.j2
-      dest="{{ nginx_etc }}/sites-available/default.conf"
+    src=default.j2
+    dest="{{ nginx_etc }}/sites-available/default.conf"
 
 - name: common |Copy the nginx default site configuration file 
   template: 
-      src=default.j2
-      dest="{{nginx_etc}}/sites-available/default"
+    src=default.j2
+    dest="{{ nginx_etc }}/sites-available/default"
 
 - name: common | Create the link for site enabled specific configurations
   file: 
-      path="{{nginx_etc}}/sites-enabled/default"
-      state=link
-      src="{{nginx_etc}}/sites-available/default"
+    path="{{ nginx_etc }}/sites-enabled/default"
+    state=link
+    src="{{ nginx_etc }}/sites-available/default"
 
 - name: common | Create the  configuration files for nginx
   template:
-      src=site.j2
-      dest="{{nginx_etc}}/sites-available/{{item.file_name}}.conf"
+    src=site.j2
+    dest="{{ nginx_etc }}/sites-available/{{ item.file_name }}.conf"
   with_items: nginx_site
-  when: nginx_site |lower != 'none'
+  when: nginx_site | lower != 'none'
   notify: 
-   - reload nginx
+   - check reload nginx
 
 ## TODO: Add conidition to disable/enable sites
 - name: Create the link for site enabled specific configurations
   file: 
-     path="{{nginx_etc}}/sites-enabled/{{item.file_name}}.conf"
+     path="{{ nginx_etc }}/sites-enabled/{{ item.file_name }}.conf"
      state=link
-     src="{{nginx_etc}}/sites-available/{{item.file_name}}.conf"
+     src="{{ nginx_etc }}/sites-available/{{ item.file_name }}.conf"
   with_items: nginx_site   
   notify: 
-   - reload nginx
+   - check reload nginx
 
 - name: common | Copy the nginx main configuration file 
   template: 
-      src=nginx.conf.j2
-      dest="{{nginx_etc}}/nginx.conf"
-      validate='nginx -t -c %s'
+    src=nginx.conf.j2
+    dest="{{ nginx_etc }}/nginx.conf"
+    validate='nginx -t -c %s'
   notify: 
-   - restart nginx   
+   - check restart nginx   
 
 - name: common | start the nginx service
   service: 
-      name=nginx
-      state=started
-      enabled=yes
+    name=nginx
+    state=started
+    enabled=yes

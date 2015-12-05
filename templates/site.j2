@@ -1,4 +1,4 @@
-##{{ansible_managed}}
+##{{ ansible_managed }}
 {% for block in item.blocks %}
 {# First level block #}
 {{block.type}} {{ block.name if block.name is defined else "" }} {
