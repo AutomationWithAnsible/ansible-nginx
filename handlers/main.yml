@@ -1,10 +1,25 @@
 ---
+
+- name: check restart nginx
+  command: 
+    nginx -t -c "{{ nginx_etc }}/nginx.conf"
+  changed_when: True
+  notify:
+    - restart nginx
+
+- name: check reload nginx
+  command: 
+    nginx -t -c "{{ nginx_etc }}/nginx.conf"
+  changed_when: True
+  notify:
+    - reload nginx
+
 - name: restart nginx
   service: 
-      name=nginx 
-      state=restarted 
+    name=nginx
+    state=restarted
 
 - name: reload nginx
   service: 
-      name=nginx 
-      state=reloaded
+    name=nginx
+    state=reloaded
