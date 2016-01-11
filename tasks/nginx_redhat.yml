@@ -24,6 +24,6 @@
 
 - name: nginx_redhat | Install the nginx packages 
   yum: 
-      name={{ item }}
+      name="{{ item }}"
       state=present
   with_items: redhat_pkg

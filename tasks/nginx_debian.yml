@@ -13,8 +13,8 @@
 
 - name: nginx_debian | Install the nginx packages 
   apt: 
-      name={{ item }} 
-      state={{nginx_apt_state}}
+      name="{{ item }}"
+      state="{{nginx_apt_state}}"
   with_items: ubuntu_pkg
-  environment: env
+  environment: "{{ env }}"
   when: ansible_os_family == "Debian"
