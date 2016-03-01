@@ -54,6 +54,9 @@
   notify: 
    - check restart nginx   
 
+- include: "manage_sites.yml"
+  when: nginx_manage_sites
+
 - name: common | start the nginx service
   service: 
     name=nginx
