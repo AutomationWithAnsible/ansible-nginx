@@ -21,8 +21,10 @@
 
 - name: manage sites | Ensure old services are removed
   file:
-    path="{{ nginx_etc }}/sites-enabled/{{ item }}"
+    path="{{ nginx_etc }}/sites-enabled/{{ item.0 }}{{ item.1 }}"
     state="absent"
-  with_items: "{{ old_files }}"
+  with_nested: 
+    - "{{ old_files }}"
+    - [ "", ".conf"]
   notify: 
    - reload nginx
