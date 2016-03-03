@@ -29,3 +29,7 @@ suites:
   - name                  : simple
     provisioner           :
         playbook          : "test/integration/simple/simple.yml"
+
+  - name                  : manage
+    provisioner           :
+        playbook          : "test/integration/manage/manage.yml"

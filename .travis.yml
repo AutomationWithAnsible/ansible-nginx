@@ -5,6 +5,8 @@ python: "2.7"
 env:
   - KITCHEN_TEST="simple-v1"
   - KITCHEN_TEST="simple-v2"
+  - KITCHEN_TEST="manage-v1"
+  - KITCHEN_TEST="manage-v2"
 
 before_install:
   # Make sure everything's up to date.

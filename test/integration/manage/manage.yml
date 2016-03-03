@@ -1,0 +1,47 @@
+---
+- name         : Mange
+  hosts        : "{{ kitchen_hosts }}"
+  gather_facts : true
+  sudo         : True
+  connection   : "{{ kitchen_connection | default('local') }}"
+  vars         :
+        nginx_manage_sites               : True
+        nginx_site                       :
+           - file_name                   : "test2"
+             blocks                      :
+               - type                    : "server"
+                 index                   : "index.htm index.html"
+                 server_name             : "localhost"
+                 listen                  : "1180"
+                 ## Use josn
+                 location1               : {
+                                             name: /,
+                                             type: location,
+                                             try_files: "$uri $uri/ /index.html",
+                                             root: "{{ nginx_default_root }}"
+                                           }
+
+           - file_name                   : "test3"
+             blocks                      :
+               - type                    : "server"
+                 index                   : "index.htm index.html"
+                 server_name             : "localhost"
+                 listen                  : "1280"
+                 ## Use josn
+                 location1               : {
+                                             name: /,
+                                             type: location,
+                                             try_files: "$uri $uri/ /index.html",
+                                             root: "{{ nginx_default_root }}"
+                                           }
+  pre_tasks:
+            - name: update apt
+              apt: update_cache=yes cache_valid_time=3600
+
+            - name: One time tasks for testing
+              shell: "mkdir -p /etc/nginx/sites-enabled/ && touch /etc/nginx/sites-enabled/remove_me.conf && touch /tmp/creates"
+              args:
+                creates: /tmp/creates
+  roles        :
+                 - "ansible-nginx"
+
