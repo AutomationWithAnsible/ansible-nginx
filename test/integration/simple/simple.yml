@@ -9,9 +9,9 @@
            - file_name                   : "test"
              blocks                      :
                - type                    : "server"
-                 index                   : "index.htm index.htm"
-                 server_name             : localhost
-                 listen                  : 1080
+                 index                   : "index.htm index.html"
+                 server_name             : "localhost"
+                 listen                  : "1080"
                  ## Use josn
                  location1               : {
                                              name: /,
@@ -27,6 +27,9 @@
                              autoindex   : "on" 
                              allow       : "127.0.0.2"
                              deny        : "all" 
+  pre_tasks:
+            - name: update apt
+              apt: update_cache=yes cache_valid_time=3600
 
   roles        :
                  - "ansible-nginx"
