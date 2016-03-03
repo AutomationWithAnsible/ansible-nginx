@@ -17,7 +17,7 @@
                  location1               : {
                                              name: /,
                                              type: location,
-                                             try_files: "$uri $uri/ /index.html",
+                                             try_files: "$uri $uri/ =404",
                                              root: "{{ nginx_default_root }}"
                                            }
 
@@ -31,7 +31,7 @@
                  location1               : {
                                              name: /,
                                              type: location,
-                                             try_files: "$uri $uri/ /index.html",
+                                             try_files: "$uri $uri/ =404",
                                              root: "{{ nginx_default_root }}"
                                            }
   pre_tasks:
