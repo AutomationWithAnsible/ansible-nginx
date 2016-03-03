@@ -58,5 +58,10 @@ describe 'NGinx http content' do
     its(:stdout) { should match "<h1>Welcome to nginx!</h1>" }
   end
 
+ describe command "cat /var/log/nginx/*" do 
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match "XXXXXXXX" }
+  end
+
 end
 
