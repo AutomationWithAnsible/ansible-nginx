@@ -1,8 +1,8 @@
 ---
 - name         : Simple
-  hosts        : "{{ kitchen_hosts }}"
-  gather_facts : true
-  sudo         : True
+  hosts        : "all"
+  gather_facts : True
+  become       : True
   connection   : "{{ kitchen_connection | default('local') }}"
   vars         :
         nginx_site                       :

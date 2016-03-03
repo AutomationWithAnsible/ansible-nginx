@@ -1,8 +1,8 @@
 ---
-- name         : Mange
-  hosts        : "{{ kitchen_hosts }}"
-  gather_facts : true
-  sudo         : True
+- name         : Manage
+  hosts        : "all"
+  gather_facts : True
+  become       : True
   connection   : "{{ kitchen_connection | default('local') }}"
   vars         :
         nginx_manage_sites               : True
