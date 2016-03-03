@@ -1,0 +1,67 @@
+---
+- name         : Manage
+  hosts        : "all"
+  gather_facts : True
+  become       : True
+  connection   : "{{ kitchen_connection | default('local') }}"
+  pre_tasks:
+            - name: update apt
+              apt: update_cache=yes cache_valid_time=3600
+
+            - name: One time tasks for testing
+              shell: "mkdir -p /etc/nginx/sites-enabled/ && touch /etc/nginx/sites-enabled/remove_me.conf && touch /tmp/creates"
+              args:
+                creates: /tmp/creates
+
+            - name: Create dir for content
+              file:
+                path="/nginx/{{ item }}"
+                state=directory
+                mode=0755
+              with_items: 
+                - test2
+                - test3
+
+            - name: Create content for test 
+              copy:
+                content="Hello {{ item }}"
+                dest="/nginx/{{ item }}/index.html"
+                mode=0644
+              with_items: 
+                - test2
+                - test3
+
+  vars         :
+        nginx_manage_sites               : True
+        nginx_site                       :
+           - file_name                   : "test2"
+             blocks                      :
+               - type                    : "server"
+                 index                   : "index.htm index.html"
+                 server_name             : "localhost"
+                 listen                  : "1180"
+                 ## Use josn
+                 location1               : {
+                                             name: /,
+                                             type: location,
+                                             try_files: "$uri $uri/ =404",
+                                             root: "/nginx/test2"
+                                           }
+
+           - file_name                   : "test3"
+             blocks                      :
+               - type                    : "server"
+                 index                   : "index.htm index.html"
+                 server_name             : "localhost"
+                 listen                  : "1280"
+                 ## Use josn
+                 location1               : {
+                                             name: /,
+                                             type: location,
+                                             try_files: "$uri $uri/ =404",
+                                             root: "/nginx/test3"
+                                           }
+
+  roles        :
+                 - "ansible-nginx"
+

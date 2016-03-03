@@ -1,9 +1,12 @@
 ---
-nginx_etc                        : "/etc/nginx/"
+nginx_etc                        : "/etc/nginx"
 nginx_default_root               : "/usr/share/nginx/html" # Will  only work for ubuntu
 nginx_max_clients                : 512
 nginx_install_repo               : "ubuntu" # Options: ["nginx", "ubuntu"]          
 nginx_apt_state                  : "present" # Options: ["latest", "present"]
+
+# Should we control sites enabled
+nginx_manage_sites               : False
 
 nginx_http_params                :
   sendfile                       : "on"

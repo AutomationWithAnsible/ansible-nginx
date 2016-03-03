@@ -1,0 +1,30 @@
+---
+
+- name: manage sites | Get current services
+  shell: "ls *| sed 's/.conf//g'"
+  changed_when: False
+  args:
+    chdir: "{{ nginx_etc }}/sites-enabled/"
+  register: registered_nginx_sites
+
+- name: manage sites | Check if any services are old
+  set_fact: 
+    current_filenames: "{{ nginx_site | map(attribute='file_name') | list  + ['default'] }}"
+
+- name: manage sites | Check if any files needs to be removed
+  set_fact: 
+    old_files: "{{ registered_nginx_sites.stdout_lines | difference(current_filenames) }}"
+
+- name: manage sites | List of files need to removed
+  debug: 
+    var=old_files
+
+- name: manage sites | Ensure old services are removed
+  file:
+    path="{{ nginx_etc }}/sites-enabled/{{ item.0 }}{{ item.1 }}"
+    state="absent"
+  with_nested: 
+    - "{{ old_files }}"
+    - [ "", ".conf"]
+  notify: 
+   - reload nginx
