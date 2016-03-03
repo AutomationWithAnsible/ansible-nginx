@@ -9,7 +9,7 @@
 
 - name: manage sites | Check if any services are old
   set_fact: 
-    current_filenames: "{{ nginx_site + 'default' | map(attribute='file_name') | list }} "
+    current_filenames: "{{ nginx_site | map(attribute='file_name') | list  + ['default'] }}"
 
 - name: manage sites | Check if any files needs to be removed
   set_fact: 
