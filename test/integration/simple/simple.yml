@@ -17,19 +17,27 @@
                                              name: /,
                                              type: location,
                                              try_files: "$uri $uri/ /index.html",
-                                             root: "{{ nginx_default_root }}"
+                                             root: "/nginx/test1/"
                                            }
-                 ## Use yaml
-                 location2               : 
-                             name        : /doc/
-                             type        : location
-                             alias       : "/usr/share/doc/"
-                             autoindex   : "on" 
-                             allow       : "127.0.0.2"
-                             deny        : "all" 
   pre_tasks:
             - name: update apt
               apt: update_cache=yes cache_valid_time=3600
+
+            - name: Create dir for content
+              file:
+                path="/nginx/{{ item }}"
+                state=directory
+                mode=0755
+              with_items: 
+                - test1
+
+            - name: Create content for test 
+              copy:
+                content="Hello {{ item }}"
+                dest="/nginx/{{ item }}/index.html"
+                mode=0644
+              with_items: 
+                - test1
 
   roles        :
                  - "ansible-nginx"

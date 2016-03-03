@@ -35,9 +35,9 @@ end
 
 describe 'NGinx http content' do
 
- describe command "curl -s -L http://127.0.0.1:1080 | grep h1" do 
+ describe command "curl -s -L http://127.0.0.1:1080" do 
         its(:exit_status) { should eq 0 }
-        its(:stdout) { should match "<h1>Welcome to nginx!</h1>" }
+        its(:stdout) { should match "Hello test1" }
       end
 end
 
