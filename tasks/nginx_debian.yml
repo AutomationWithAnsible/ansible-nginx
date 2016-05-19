@@ -15,6 +15,6 @@
   apt: 
       name="{{ item }}"
       state="{{nginx_apt_state}}"
-  with_items: ubuntu_pkg
+  with_items: "{{ ubuntu_pkg }}"
   environment: "{{ env }}"
   when: ansible_os_family == "Debian"

@@ -8,7 +8,7 @@
   pkgin: 
       name="{{ item }}"
       state=present
-  with_items: solaris_pkg
+  with_items: "{{ solaris_pkg }}"
 
 - name: common | Create the conf.d
   file: 
