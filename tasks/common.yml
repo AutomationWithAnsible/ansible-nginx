@@ -31,7 +31,7 @@
   template:
     src=site.j2
     dest="{{ nginx_etc }}/sites-available/{{ item.file_name }}.conf"
-  with_items: nginx_site
+  with_items: "{{ nginx_site }}"
   when: nginx_site | lower != 'none'
   notify: 
    - check reload nginx
@@ -42,7 +42,7 @@
      path="{{ nginx_etc }}/sites-enabled/{{ item.file_name }}.conf"
      state=link
      src="{{ nginx_etc }}/sites-available/{{ item.file_name }}.conf"
-  with_items: nginx_site   
+  with_items: "{{ nginx_site }}"
   notify: 
    - check reload nginx
 

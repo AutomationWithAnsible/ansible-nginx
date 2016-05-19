@@ -23,7 +23,7 @@ nginx_site                       :
          index                   : "index.html index.htm"
          server_name             : localhost
          listen                  : 80
-         ## Use josn
+         ## Use json
          location1               : {
                                      name: /,
                                      type: location,

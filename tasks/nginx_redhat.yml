@@ -26,4 +26,4 @@
   yum: 
       name="{{ item }}"
       state=present
-  with_items: redhat_pkg
+  with_items: "{{ redhat_pkg }}"
