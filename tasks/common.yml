@@ -36,13 +36,14 @@
   notify: 
    - check reload nginx
 
-## TODO: Add conidition to disable/enable sites
+## TODO: Add condition to disable/enable sites
 - name: Create the link for site enabled specific configurations
   file: 
      path="{{ nginx_etc }}/sites-enabled/{{ item.file_name }}.conf"
      state=link
      src="{{ nginx_etc }}/sites-available/{{ item.file_name }}.conf"
   with_items: "{{ nginx_site }}"
+  when: nginx_site | lower != 'none'
   notify: 
    - check reload nginx
 
